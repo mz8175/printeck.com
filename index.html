@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRINTECK | Industrial & Consumer 3D Design Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Enhanced Base Styles */
+        :root {
+            --primary: #00f7ff;
+            --secondary: #7700ff;
+            --accent: #ff00c8;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #f0f8ff;
+            --card-bg: rgba(20, 20, 40, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        /* Logo Intro */
+        #logo-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease;
+        }
+        
+        .logo-intro-content {
+            text-align: center;
+        }
+        
+        .intro-logo {
+            font-size: 5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            animation: logoPulse 2s ease-in-out;
+        }
+        
+        .intro-tagline {
+            font-size: 1.5rem;
+            color: rgba(240, 248, 255, 0.7);
+            animation: fadeInUp 1s 0.5s both;
+        }
+        
+        @keyframes logoPulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 3D Cube Container */
+        #cube-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        /* 3D Cube Animation */
+        .cube-3d {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            transform-style: preserve-3d;
+            animation: cubeRotate 15s infinite linear;
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 247, 255, 0.1);
+            border: 2px solid var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            opacity: 0.8;
+            backface-visibility: hidden;
+        }
+        
+        .face-front { transform: translateZ(60px); }
+        .face-back { transform: rotateY(180deg) translateZ(60px); }
+        .face-right { transform: rotateY(90deg) translateZ(60px); }
+        .face-left { transform: rotateY(-90deg) translateZ(60px); }
+        .face-top { transform: rotateX(90deg) translateZ(60px); }
+        .face-bottom { transform: rotateX(-90deg) translateZ(60px); }
+        
+        @keyframes cubeRotate {
+            0% { transform: rotateX(0) rotateY(0) rotateZ(0); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(180deg); }
+        }
+        
+        /* Website Content */
+        .website-content {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .website-content.visible {
+            opacity: 1;
+        }
+        
+        /* Enhanced Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        
+        header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        header.scrolled {
+            padding: 15px 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .logo-3d {
+            position: relative;
+            display: inline-block;
+            transform-style: preserve-3d;
+            perspective: 500px;
+        }
+        
+        .logo-3d span {
+            display: inline-block;
+            transform: translateZ(20px);
+            text-shadow: 0 5px 15px rgba(0, 247, 255, 0.5);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.4s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .cta-button {
+            background: var(--gradient);
+            color: var(--dark);
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .cta-button:hover::before {
+            width: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 247, 255, 0.3);
+        }
+        
+        .cta-button.outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .cta-button.outline:hover {
+            background: rgba(0, 247, 255, 0.1);
+        }
+        
+        /* Enhanced Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 70% 30%, rgba(119, 0, 255, 0.2), transparent 50%);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+        
+        .hero.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            position: relative;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(119, 0, 255, 0.7), 0 0 30px rgba(255, 0, 200, 0.5);
+            }
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: rgba(240, 248, 255, 0.8);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .floating-models {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+        }
+        
+        .model-1, .model-2, .model-3 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            transform-style: preserve-3d;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .model-1 {
+            background: linear-gradient(45deg, rgba(0, 247, 255, 0.1), rgba(119, 0, 255, 0.1));
+            top: 20%;
+            right: 10%;
+            animation: float-1 8s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+        
+        .model-2 {
+            background: linear-gradient(45deg, rgba(119, 0, 255, 0.1), rgba(255, 0, 200, 0.1));
+            top: 50%;
+            right: 30%;
+            animation: float-2 7s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        
+        .model-3 {
+            background: linear-gradient(45deg, rgba(255, 0, 200, 0.1), rgba(0, 247, 255, 0.1));
+            top: 30%;
+            right: 50%;
+            animation: float-3 9s ease-in-out infinite;
+            animation-delay: 1.5s;
+        }
+        
+        .model-1.visible, .model-2.visible, .model-3.visible {
+            opacity: 1;
+        }
+        
+        .model-1:hover, .model-2:hover, .model-3:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px rgba(0, 247, 255, 0.2);
+        }
+        
+        .model-details {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            transform: translateZ(30px);
+        }
+        
+        .model-details h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes float-1 {
+            0%, 100% {
+                transform: translateY(0) rotateX(10deg) rotateY(5deg) rotateZ(0);
+            }
+            50% {
+                transform: translateY(-20px) rotateX(5deg) rotateY(10deg) rotateZ(5deg);
+            }
+        }
+        
+        @keyframes float-2 {
+            0%, 100% {
+                transform: translateY(0) rotateX(-5deg) rotateY(-5deg) rotateZ(0);
+            }
+            50% {
+                transform: translateY(-25px) rotateX(-10deg) rotateY(-10deg) rotateZ(-5deg);
+            }
+        }
+        
+        @keyframes float-3 {
+            0%, 100% {
+                transform: translateY(0) rotateX(5deg) rotateY(-5deg) rotateZ(0);
+            }
+            50% {
+                transform: translateY(-15px) rotateX(10deg) rotateY(-10deg) rotateZ(5deg);
+            }
+        }
+        
+        /* Enhanced Section Styles */
+        section {
+            padding: 100px 5%;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: rgba(240, 248, 255, 0.7);
+            font-size: 1.1rem;
+        }
+        
+        /* Enhanced Services Section */
+        .services {
+            background: rgba(5, 5, 15, 0.7);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 247, 255, 0.1);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            transition: var(--transition);
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .service-card p {
+            color: rgba(240, 248, 255, 0.7);
+            margin-bottom: 20px;
+        }
+        
+        /* Enhanced Models Section */
+        .models {
+            background: rgba(10, 10, 26, 0.7);
+        }
+        
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .model-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            position: relative;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .model-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 247, 255, 0.1);
+        }
+        
+        .model-img {
+            height: 200px;
+            background: linear-gradient(45deg, rgba(0, 247, 255, 0.1), rgba(119, 0, 255, 0.1));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .model-img::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(200%) rotate(45deg);
+            }
+        }
+        
+        .model-content {
+            padding: 20px;
+        }
+        
+        .model-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .model-content p {
+            color: rgba(240, 248, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .model-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .model-tag {
+            background: rgba(0, 247, 255, 0.1);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .model-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Enhanced Technology Section */
+        .technology {
+            background: rgba(5, 5, 15, 0.7);
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .tech-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .tech-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 247, 255, 0.1);
+        }
+        
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: var(--transition);
+        }
+        
+        .tech-card:hover .tech-icon {
+            transform: scale(1.1);
+        }
+        
+        .tech-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .tech-card p {
+            color: rgba(240, 248, 255, 0.7);
+        }
+        
+        /* Enhanced Process Section */
+        .process {
+            background: rgba(10, 10, 26, 0.7);
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            position: relative;
+        }
+        
+        .process-step {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .process-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            color: var(--dark);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+        
+        .process-step:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
+        }
+        
+        .process-step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .process-step p {
+            color: rgba(240, 248, 255, 0.7);
+        }
+        
+        /* Enhanced CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
+            text-align: center;
+            padding: 80px 5%;
+            border-radius: 20px;
+            margin: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: rgba(240, 248, 255, 0.8);
+        }
+        
+        /* Enhanced Footer */
+        footer {
+            background: var(--darker);
+            padding: 50px 5% 20px;
+            border-top: 1px solid rgba(0, 247, 255, 0.1);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: rgba(240, 248, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 247, 255, 0.1);
+            border-radius: 50%;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: rgba(0, 247, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 247, 255, 0.1);
+            color: rgba(240, 248, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.3;
+            animation: float-particle linear infinite;
+        }
+        
+        @keyframes float-particle {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Custom Logo Styles */
+        .custom-logo {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 12px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 8px;
+            transform: rotate(45deg);
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
+        }
+        
+        .logo-icon::after {
+            content: '3D';
+            position: absolute;
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 14px;
+            z-index: 1;
+        }
+        
+        .logo-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+        
+        /* Specialized Sections */
+        .specialization-section {
+            margin-bottom: 80px;
+        }
+        
+        .specialization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+        }
+        
+        .specialization-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .specialization-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .specialization-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+        
+        .specialization-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 247, 255, 0.1);
+        }
+        
+        .specialization-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .specialization-icon {
+            font-size: 2.5rem;
+            margin-right: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .specialization-title {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .specialization-subtitle {
+            color: rgba(240, 248, 255, 0.7);
+            font-size: 1rem;
+        }
+        
+        .specialization-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .specialization-features li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .specialization-features li i {
+            color: var(--primary);
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero-bg {
+                width: 50%;
+            }
+            
+            .model-1, .model-2, .model-3 {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .specialization-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 5%;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .hero {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-bg {
+                position: relative;
+                width: 100%;
+                height: 40%;
+                opacity: 0.7;
+                margin-top: 30px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .cta-button {
+                text-align: center;
+            }
+            
+            .model-1, .model-2, .model-3 {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .specialization-card {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .models-grid, .services-grid, .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .specialization-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo Intro -->
+    <div id="logo-intro">
+        <div class="logo-intro-content">
+            <div class="intro-logo">PRINTECK</div>
+            <div class="intro-tagline">Industrial & Consumer 3D Design Solutions</div>
+        </div>
+    </div>
+    
+    <!-- 3D Cube Container -->
+    <div id="cube-container">
+        <div class="cube-3d" id="cube-3d">
+            <div class="cube-face face-front"><i class="fas fa-cube"></i></div>
+            <div class="cube-face face-back"><i class="fas fa-print"></i></div>
+            <div class="cube-face face-right"><i class="fas fa-cogs"></i></div>
+            <div class="cube-face face-left"><i class="fas fa-pencil-ruler"></i></div>
+            <div class="cube-face face-top"><i class="fas fa-magic"></i></div>
+            <div class="cube-face face-bottom"><i class="fas fa-desktop"></i></div>
+        </div>
+    </div>
+    
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Website Content -->
+    <div class="website-content" id="website-content">
+        <!-- Header -->
+        <header id="header">
+            <div class="custom-logo">
+                <div class="logo-icon"></div>
+                <div class="logo-text">PRINTECK</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#specializations">Specializations</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#technology">Technology</a></li>
+                    <li><a href="#process">Process</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="tel:70417915" class="cta-button">Get Quote</a>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Industrial & Consumer 3D Design Solutions</h1>
+                <p>Transform your ideas into reality with our expert custom 3D design services. From concept to creation, we bring your vision to life with precision and innovation.</p>
+                <div class="hero-buttons">
+                    <a href="#specializations" class="cta-button">Our Specializations</a>
+                    <a href="tel:70417915" class="cta-button outline">Start Your Project</a>
+                </div>
+            </div>
+            <div class="hero-bg">
+                <div class="floating-models">
+                    <div class="model-1">
+                        <div class="model-details">
+                            <h3>Industrial Design</h3>
+                            <p>Precision Engineering</p>
+                        </div>
+                    </div>
+                    <div class="model-2">
+                        <div class="model-details">
+                            <h3>Consumer Products</h3>
+                            <p>User-Centered Design</p>
+                        </div>
+                    </div>
+                    <div class="model-3">
+                        <div class="model-details">
+                            <h3>Prototyping</h3>
+                            <p>Rapid Development</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Specializations Section -->
+        <section class="specialization-section" id="specializations">
+            <div class="section-title">
+                <h2>Our Design Specializations</h2>
+                <p>We excel in both industrial and consumer product design with tailored approaches for each domain</p>
+            </div>
+            
+            <div class="specialization-grid">
+                <!-- Industrial Design -->
+                <div class="specialization-card">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-title">Industrial Component Design</h3>
+                            <p class="specialization-subtitle">Precision engineering for industrial applications</p>
+                        </div>
+                    </div>
+                    <p>Our industrial design services focus on creating robust, high-performance components for manufacturing, machinery, and industrial applications. We combine engineering precision with practical functionality.</p>
+                    <ul class="specialization-features">
+                        <li><i class="fas fa-check"></i> Precision engineering with tight tolerances</li>
+                        <li><i class="fas fa-check"></i> Material optimization for industrial applications</li>
+                        <li><i class="fas fa-check"></i> Stress analysis and performance testing</li>
+                        <li><i class="fas fa-check"></i> Manufacturing-ready designs</li>
+                        <li><i class="fas fa-check"></i> Custom solutions for specialized equipment</li>
+                    </ul>
+                    <a href="tel:70417915" class="cta-button">Discuss Industrial Project</a>
+                </div>
+                
+                <!-- Consumer Product Design -->
+                <div class="specialization-card">
+                    <div class="specialization-header">
+                        <div class="specialization-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div>
+                            <h3 class="specialization-title">Consumer Product Design</h3>
+                            <p class="specialization-subtitle">User-centered designs for market success</p>
+                        </div>
+                    </div>
+                    <p>Our consumer product design approach focuses on creating appealing, ergonomic, and market-ready products. We blend aesthetics with functionality to deliver products that users love and businesses profit from.</p>
+                    <ul class="specialization-features">
+                        <li><i class="fas fa-check"></i> Ergonomic and user-centered design</li>
+                        <li><i class="fas fa-check"></i> Aesthetic optimization for market appeal</li>
+                        <li><i class="fas fa-check"></i> Prototyping and user testing</li>
+                        <li><i class="fas fa-check"></i> Manufacturing cost optimization</li>
+                        <li><i class="fas fa-check"></i> Brand-aligned product development</li>
+                    </ul>
+                    <a href="tel:70417915" class="cta-button">Discuss Consumer Product</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services" id="services">
+            <div class="section-title">
+                <h2>Our 3D Design Services</h2>
+                <p>Comprehensive 3D design solutions for industrial and consumer applications</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-pencil-ruler"></i>
+                    </div>
+                    <h3>Custom 3D Modeling</h3>
+                    <p>Bespoke 3D models designed from scratch to meet your exact specifications and design requirements.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>Prototype Development</h3>
+                    <p>Rapid prototyping services to bring your concepts to life and test functionality before production.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>Design Optimization</h3>
+                    <p>Enhancing existing designs for better performance, manufacturability, and aesthetic appeal.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Section -->
+        <section class="technology" id="technology">
+            <div class="section-title">
+                <h2>Advanced 3D Design Technology</h2>
+                <p>We utilize cutting-edge technology and software to deliver exceptional custom 3D designs</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3>FLSun T1 Printers</h3>
+                    <p>Working with the best machines for exceptional precision and quality in every project we deliver.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Simulation Tools</h3>
+                    <p>Advanced simulation tools to test designs for stress, flow, and performance before production.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>CAD Software</h3>
+                    <p>Industry-leading CAD software for precise modeling, rendering, and technical documentation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="process" id="process">
+            <div class="section-title">
+                <h2>Our Design Process</h2>
+                <p>From concept to completion, we follow a structured process to ensure your custom 3D design meets all requirements</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Consultation</h3>
+                    <p>We discuss your project requirements, goals, and specifications in detail.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Concept Design</h3>
+                    <p>Our team creates initial concepts and 3D models based on your requirements.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Refinement</h3>
+                    <p>We refine the design based on your feedback, making adjustments as needed.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Final Delivery</h3>
+                    <p>You receive the final 3D model files, ready for production or further development.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section" id="contact">
+            <div class="section-title">
+                <h2>Start Your Custom 3D Design Project</h2>
+                <p>Contact us today to discuss your custom 3D design needs and get a personalized quote</p>
+            </div>
+            <a href="tel:70417915" class="cta-button">Call Now: 70417915</a>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>PRINTECK</h4>
+                    <p>Industrial and consumer 3D design solutions with precision engineering and user-centered design approaches.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#specializations">Specializations</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#technology">Technology</a></li>
+                        <li><a href="#process">Process</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">Custom 3D Modeling</a></li>
+                        <li><a href="#services">Prototype Development</a></li>
+                        <li><a href="#services">Design Optimization</a></li>
+                        <li><a href="#contact">Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 70417915</li>
+                        <li><i class="fas fa-envelope"></i> printeck8175@gmail.com</li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/printeck1/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/printeck1" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PRINTECK. All rights reserved. | Industrial & Consumer 3D Design Solutions</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Logo intro and cube animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoIntro = document.getElementById('logo-intro');
+            const cubeContainer = document.getElementById('cube-container');
+            const cube3d = document.getElementById('cube-3d');
+            const websiteContent = document.getElementById('website-content');
+            const header = document.getElementById('header');
+            const hero = document.querySelector('.hero');
+            const sections = document.querySelectorAll('section');
+            const serviceCards = document.querySelectorAll('.service-card');
+            const modelCards = document.querySelectorAll('.model-card');
+            const techCards = document.querySelectorAll('.tech-card');
+            const processSteps = document.querySelectorAll('.process-step');
+            const floatingModels = document.querySelectorAll('.model-1, .model-2, .model-3');
+            const specializationCards = document.querySelectorAll('.specialization-card');
+            
+            // Initial sequence
+            setTimeout(() => {
+                // Fade out logo intro
+                logoIntro.style.opacity = '0';
+                
+                setTimeout(() => {
+                    // Hide logo intro completely
+                    logoIntro.style.display = 'none';
+                    
+                    // Show cube
+                    cubeContainer.style.opacity = '1';
+                    
+                    // Show website content
+                    websiteContent.classList.add('visible');
+                    
+                    // Show header and hero
+                    header.classList.add('visible');
+                    hero.classList.add('visible');
+                    
+                    // Show floating models with delays
+                    floatingModels.forEach((model, index) => {
+                        setTimeout(() => {
+                            model.classList.add('visible');
+                        }, index * 300);
+                    });
+                    
+                    // Show sections with scroll animation
+                    const observerOptions = {
+                        threshold: 0.1,
+                        rootMargin: '0px 0px -50px 0px'
+                    };
+                    
+                    const sectionObserver = new IntersectionObserver(function(entries) {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                                
+                                // Animate cards within sections
+                                if (entry.target.id === 'services') {
+                                    serviceCards.forEach((card, index) => {
+                                        setTimeout(() => {
+                                            card.classList.add('visible');
+                                        }, index * 200);
+                                    });
+                                }
+                                
+                                if (entry.target.id === 'models') {
+                                    modelCards.forEach((card, index) => {
+                                        setTimeout(() => {
+                                            card.classList.add('visible');
+                                        }, index * 200);
+                                    });
+                                }
+                                
+                                if (entry.target.id === 'technology') {
+                                    techCards.forEach((card, index) => {
+                                        setTimeout(() => {
+                                            card.classList.add('visible');
+                                        }, index * 200);
+                                    });
+                                }
+                                
+                                if (entry.target.id === 'process') {
+                                    processSteps.forEach((step, index) => {
+                                        setTimeout(() => {
+                                            step.classList.add('visible');
+                                        }, index * 200);
+                                    });
+                                }
+                                
+                                if (entry.target.id === 'specializations') {
+                                    specializationCards.forEach((card, index) => {
+                                        setTimeout(() => {
+                                            card.classList.add('visible');
+                                        }, index * 300);
+                                    });
+                                }
+                            }
+                        });
+                    }, observerOptions);
+                    
+                    sections.forEach(section => {
+                        sectionObserver.observe(section);
+                    });
+                    
+                }, 800); // Wait for logo fade out
+                
+            }, 2000); // Logo display time (2 seconds)
+            
+            // Scroll-based cube transformation
+            let ticking = false;
+            
+            function updateCube() {
+                const scrollY = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const scrollPercent = scrollY / (documentHeight - windowHeight);
+                
+                // Move cube based on scroll
+                const cubeX = 50 + (scrollPercent * 25); // Move right as we scroll
+                const cubeY = 50 - (scrollPercent * 30); // Move up as we scroll
+                const cubeScale = 1 - (scrollPercent * 0.8); // Shrink as we scroll
+                
+                cubeContainer.style.top = `${cubeY}%`;
+                cubeContainer.style.left = `${cubeX}%`;
+                cubeContainer.style.transform = `translate(-50%, -50%) scale(${cubeScale})`;
+                
+                // Fade out cube when scrolled far enough
+                if (scrollPercent > 0.6) {
+                    cubeContainer.style.opacity = 1 - ((scrollPercent - 0.6) * 2.5);
+                }
+                
+                ticking = false;
+            }
+            
+            function onScroll() {
+                if (!ticking) {
+                    requestAnimationFrame(updateCube);
+                    ticking = true;
+                }
+            }
+            
+            window.addEventListener('scroll', onScroll);
+            
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Create particle background
+            createParticles();
+        });
+        
+        // Particle background effect
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Random color from gradient
+                const colors = ['#00f7ff', '#7700ff', '#ff00c8'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = color;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+    </script>
+</body>
+</html>
